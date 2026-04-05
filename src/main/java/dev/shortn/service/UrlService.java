@@ -9,6 +9,7 @@ import dev.shortn.web.dto.UrlResponseDto;
 import dev.shortn.web.mapper.UrlMapper;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,6 +40,7 @@ public class UrlService {
     }
 
     @Transactional(readOnly = true)
+    @Cacheable(value = "URL_CACHE", key = "#shortCode")
     public Url findByShortCode(String shortCode){
         return repository.findByShortCode(shortCode)
                 .orElseThrow(() -> new UrlNotFoundException("Short code not found"));

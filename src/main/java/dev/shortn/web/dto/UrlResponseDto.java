@@ -9,6 +9,7 @@ public record UrlResponseDto(
         String url,
         String shortCode,
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm:ss", timezone = "GMT-3")
-        LocalDateTime createdAt
+        LocalDateTime createdAt,
+        Long clicks
 ) implements Serializable {
 }

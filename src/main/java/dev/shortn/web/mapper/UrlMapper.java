@@ -9,7 +9,8 @@ public class UrlMapper {
         return new UrlResponseDto(
                 url.getOriginalUrl(),
                 url.getShortCode(),
-                url.getCreatedAt()
+                url.getCreatedAt(),
+                url.getClicks()
         );
     }
 

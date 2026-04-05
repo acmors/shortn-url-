@@ -1,5 +1,6 @@
 package dev.shortn.web.controller;
 
+import dev.shortn.service.UrlClickService;
 import dev.shortn.service.UrlService;
 import dev.shortn.web.dto.UrlRequesDto;
 import dev.shortn.web.dto.UrlResponseDto;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 public class UrlController {
 
     private final UrlService urlService;
+    private final UrlClickService clickService;
 
     @PostMapping
     public ResponseEntity<UrlResponseDto> createShorCode(@RequestBody UrlRequesDto request){
@@ -28,6 +30,7 @@ public class UrlController {
     @GetMapping("/{shortCode}")
     public ResponseEntity<Void> redirect(@PathVariable String shortCode){
         var redirect = urlService.redirect(shortCode);
+        clickService.incrementClick(shortCode);
         return ResponseEntity
                 .status(302)
                 .header("Location", redirect.url())
