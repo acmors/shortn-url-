@@ -1,6 +1,7 @@
 package dev.shortn.web.exception;
 
 import dev.shortn.exceptions.InvalidUrlException;
+import dev.shortn.exceptions.RateLimitExceededException;
 import dev.shortn.exceptions.UrlExpiredException;
 import dev.shortn.exceptions.UrlNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -40,6 +41,15 @@ public class ApiExceptionHandler {
                 .status(HttpStatus.GONE)
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(new ErrorMessage(request, HttpStatus.GONE, e.getMessage()));
+    }
+
+    @ExceptionHandler(RateLimitExceededException.class)
+    public ResponseEntity<ErrorMessage> rateLimitExceedException(RateLimitExceededException e, HttpServletRequest request){
+        log.error("Api Error - ", e);
+        return ResponseEntity
+                .status(HttpStatus.TOO_MANY_REQUESTS)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(new ErrorMessage(request, HttpStatus.TOO_MANY_REQUESTS, e.getMessage()));
     }
 
     @ExceptionHandler(Exception.class)
