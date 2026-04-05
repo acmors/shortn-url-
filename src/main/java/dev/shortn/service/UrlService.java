@@ -1,6 +1,7 @@
 package dev.shortn.service;
 
 import dev.shortn.domain.Url;
+import dev.shortn.exceptions.UrlNotFoundException;
 import dev.shortn.repository.UrlRepository;
 import dev.shortn.web.dto.UrlRedirectDto;
 import dev.shortn.web.dto.UrlRequesDto;
@@ -40,7 +41,7 @@ public class UrlService {
     @Transactional(readOnly = true)
     public Url findByShortCode(String shortCode){
         return repository.findByShortCode(shortCode)
-                .orElseThrow(() -> new EntityNotFoundException("Short code not found"));
+                .orElseThrow(() -> new UrlNotFoundException("Short code not found"));
     }
 
     @Transactional(readOnly = true)
