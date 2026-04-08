@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class ApiExceptionHandler {
 
     @ExceptionHandler(UrlNotFoundException.class)
-    public ResponseEntity<ErrorMessage> urlNotFoundException(UrlNotFoundException e, HttpServletRequest request){
+    public ResponseEntity<ErrorMessage> urlNotFoundException(UrlNotFoundException e, HttpServletRequest request) {
         log.error("Api Error - ", e);
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
@@ -26,7 +26,7 @@ public class ApiExceptionHandler {
     }
 
     @ExceptionHandler(InvalidUrlException.class)
-    public ResponseEntity<ErrorMessage> invalidUrlException(InvalidUrlException e, HttpServletRequest request){
+    public ResponseEntity<ErrorMessage> invalidUrlException(InvalidUrlException e, HttpServletRequest request) {
         log.error("Api Error - ", e);
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
@@ -35,7 +35,7 @@ public class ApiExceptionHandler {
     }
 
     @ExceptionHandler(UrlExpiredException.class)
-    public ResponseEntity<ErrorMessage> urlExpiredException(UrlExpiredException e, HttpServletRequest request){
+    public ResponseEntity<ErrorMessage> urlExpiredException(UrlExpiredException e, HttpServletRequest request) {
         log.error("Api Error - ", e);
         return ResponseEntity
                 .status(HttpStatus.GONE)
@@ -44,7 +44,8 @@ public class ApiExceptionHandler {
     }
 
     @ExceptionHandler(RateLimitExceededException.class)
-    public ResponseEntity<ErrorMessage> rateLimitExceedException(RateLimitExceededException e, HttpServletRequest request){
+    public ResponseEntity<ErrorMessage> rateLimitExceedException(RateLimitExceededException e,
+            HttpServletRequest request) {
         log.error("Api Error - ", e);
         return ResponseEntity
                 .status(HttpStatus.TOO_MANY_REQUESTS)
@@ -57,6 +58,11 @@ public class ApiExceptionHandler {
             Exception e,
             HttpServletRequest request) {
 
+        String path = request.getRequestURI();
+        if (path.contains("favicon") || path.contains(".well-known")) {
+            return ResponseEntity.notFound().build();
+        }
+
         log.error("Unexpected error at [{}]", request.getRequestURI(), e);
 
         return ResponseEntity
@@ -66,4 +72,3 @@ public class ApiExceptionHandler {
                         "Internal server error"));
     }
 }
-

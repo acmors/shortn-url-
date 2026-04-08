@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>shortn - Encurtador de URLs</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            text-align: center;
+            padding: 3rem 1rem 2rem;
+        }
+
+        .logo {
+            font-size: 3rem;
+            font-weight: 800;
+            color: white;
+            letter-spacing: -1px;
+        }
+
+        .logo small {
+            font-size: 1rem;
+            font-weight: 400;
+            opacity: 0.9;
+        }
+
+        .container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+        }
+
+        .card {
+            max-width: 700px;
+            width: 100%;
+            background: white;
+            border-radius: 28px;
+            padding: 2.5rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+
+        .card h1 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin-bottom: 0.5rem;
+            text-align: center;
+        }
+
+        .card .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+        }
+
+        .url-form {
+            margin-bottom: 1rem;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 0;
+            margin-bottom: 1rem;
+        }
+
+        .url-input {
+            flex: 1;
+            padding: 1rem 1.2rem;
+            font-size: 1rem;
+            border: 2px solid #e0e0e0;
+            border-right: none;
+            border-radius: 12px 0 0 12px;
+            outline: none;
+            font-family: 'Inter', monospace;
+            transition: all 0.2s;
+        }
+
+        .url-input:focus {
+            border-color: #667eea;
+        }
+
+        .shorten-btn {
+            padding: 0 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            border-radius: 0 12px 12px 0;
+        }
+
+        .shorten-btn:hover {
+            opacity: 0.9;
+            transform: scale(0.98);
+        }
+
+        /* Seção de busca */
+        .search-section {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #eee;
+        }
+
+        .search-title {
+            text-align: center;
+            color: #666;
+            margin-bottom: 1rem;
+            font-size: 0.85rem;
+        }
+
+        .search-title i {
+            color: #667eea;
+            margin-right: 0.5rem;
+        }
+
+        .search-input-group {
+            display: flex;
+            gap: 0;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 0.8rem 1.2rem;
+            font-size: 0.9rem;
+            border: 2px solid #e0e0e0;
+            border-right: none;
+            border-radius: 12px 0 0 12px;
+            outline: none;
+            font-family: 'Inter', monospace;
+        }
+
+        .search-input:focus {
+            border-color: #667eea;
+        }
+
+        .search-btn {
+            padding: 0 1.5rem;
+            background: white;
+            border: 2px solid #667eea;
+            color: #667eea;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            border-radius: 0 12px 12px 0;
+        }
+
+        .search-btn:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .features {
+            text-align: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid #eee;
+            margin-top: 1.5rem;
+        }
+
+        .features p {
+            color: #888;
+            font-size: 0.8rem;
+            line-height: 1.5;
+        }
+
+        .features i {
+            color: #667eea;
+            margin: 0 0.25rem;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.75rem;
+        }
+
+        @media (max-width: 640px) {
+            .card {
+                padding: 1.5rem;
+            }
+
+            .card h1 {
+                font-size: 1.4rem;
+            }
+
+            .input-group,
+            .search-input-group {
+                flex-direction: column;
+            }
+
+            .url-input,
+            .search-input {
+                border-right: 2px solid #e0e0e0;
+                border-radius: 12px;
+                margin-bottom: 0.5rem;
+            }
+
+            .shorten-btn,
+            .search-btn {
+                border-radius: 12px;
+                justify-content: center;
+                padding: 0.8rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <div class="logo">
+            shortn <small>by Miudinho</small>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="card">
+            <h1>📎 Paste the URL to be shortened</h1>
+            <p class="subtitle">Enter the link here</p>
+
+            <form action="/create" method="POST" class="url-form">
+                <div class="input-group">
+                    <input type="url" name="url" class="url-input" placeholder="https://exemplo.com/seu-link-aqui"
+                        required>
+                    <button type="submit" class="shorten-btn">
+                        <i class="fas fa-link"></i> Shorten URL
+                    </button>
+                </div>
+            </form>
+
+            <div class="search-section">
+                <div class="search-title">
+                    <i class="fas fa-search"></i> Já tem um link encurtado? Busque por ele
+                </div>
+                <form action="/list" method="GET" class="url-form">
+                    <div class="search-input-group">
+                        <input type="text" name="code" class="search-input" placeholder="Digite o código (ex: a1b2c3)"
+                            required>
+                        <button type="submit" class="search-btn">
+                            <i class="fas fa-search"></i> Buscar
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="features">
+                <p>
+                    <i class="fas fa-chart-line"></i> shortn is a free tool to shorten URLs and generate short links<br>
+                    URL shortener allows to create a shortened link making it easy to share
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>🔗 Free URL shortener · No registration required</p>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Encurtada - shortn</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            text-align: center;
+            padding: 2rem 1rem 1rem;
+        }
+
+        .logo {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: white;
+            letter-spacing: -0.5px;
+        }
+
+        .logo small {
+            font-size: 0.9rem;
+            font-weight: 400;
+            opacity: 0.9;
+        }
+
+        .container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+        }
+
+        .card {
+            max-width: 800px;
+            width: 100%;
+            background: white;
+            border-radius: 24px;
+            padding: 2.5rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+        }
+
+        .card h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin-bottom: 0.5rem;
+        }
+
+        .card .subtitle {
+            color: #666;
+            margin-bottom: 2rem;
+            font-size: 0.85rem;
+        }
+
+        .short-url-section {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .short-url-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: #999;
+            margin-bottom: 0.5rem;
+        }
+
+        .short-url-box {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .short-url {
+            flex: 1;
+            font-family: 'Inter', monospace;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #667eea;
+            background: white;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+            word-break: break-all;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .short-url:hover {
+            background: #f0f0ff;
+            border-color: #667eea;
+        }
+
+        .copy-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s;
+        }
+
+        .copy-btn:hover {
+            opacity: 0.9;
+            transform: scale(0.98);
+        }
+
+        .long-url-section {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .long-url-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #999;
+            margin-bottom: 0.25rem;
+        }
+
+        .long-url {
+            font-size: 0.85rem;
+            color: #555;
+            word-break: break-all;
+            font-family: monospace;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 12px;
+        }
+
+        .info-item {
+            text-align: center;
+            flex: 1;
+        }
+
+        .info-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #667eea;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .refresh-clicks {
+            background: none;
+            border: none;
+            color: #667eea;
+            cursor: pointer;
+            font-size: 1rem;
+            padding: 0.25rem;
+            border-radius: 50%;
+            transition: all 0.2s;
+        }
+
+        .refresh-clicks:hover {
+            background: #e0e0e0;
+            transform: rotate(180deg);
+        }
+
+        .info-label {
+            font-size: 0.7rem;
+            color: #999;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .another-url-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: white;
+            border: 2px solid #667eea;
+            color: #667eea;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .another-url-btn:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .warning {
+            margin-top: 1.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid #eee;
+            font-size: 0.7rem;
+            color: #999;
+            text-align: center;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.75rem;
+        }
+
+        @media (max-width: 640px) {
+            .card {
+                padding: 1.5rem;
+            }
+
+            .card h2 {
+                font-size: 1.2rem;
+            }
+
+            .info-row {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .short-url-box {
+                flex-direction: column;
+            }
+
+            .copy-btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <div class="logo">
+            shortn <small>by dev</small>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="card">
+            <h2>✨ Your shortened URL</h2>
+            <p class="subtitle">Copy the short link and share it in messages, texts, posts, websites and other
+                locations.</p>
+
+            <div class="short-url-section">
+                <div class="short-url-label">Short URL</div>
+                <div class="short-url-box">
+                    <span class="short-url" id="shortUrl" th:text="${shortUrl}"
+                        onclick="window.open(this.innerText, '_blank')">https://shorturl.at/XXXXX</span>
+                    <button class="copy-btn" onclick="copyToClipboard()">
+                        <i class="far fa-copy"></i> Copy URL
+                    </button>
+                </div>
+            </div>
+
+            <div class="long-url-section">
+                <div class="long-url-label">Long URL:</div>
+                <div class="long-url" th:text="${url.url}">https://github.com/exemplo/repo/arquivo.java</div>
+            </div>
+
+            <div class="info-row">
+                <div class="info-item">
+                    <div class="info-value">
+                        <span id="clicksCount" th:text="${url.clicks != null ? url.clicks : 0}">0</span>
+                        <button class="refresh-clicks" onclick="refreshClicks()" title="Atualizar cliques">
+                            <i class="fas fa-sync-alt"></i>
+                        </button>
+                    </div>
+                    <div class="info-label">Total clicks</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-value" th:text="${#temporals.format(url.createdAt, 'dd/MM/yyyy')}">25/12/2024</div>
+                    <div class="info-label">Created at</div>
+                </div>
+            </div>
+
+            <a href="/" class="another-url-btn">
+                <i class="fas fa-plus"></i> Shorten another URL
+            </a>
+
+            <div class="warning">
+                <i class="fas fa-info-circle"></i> Short URLs that do not have at least one click per month are disabled
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>🔗 shortn · Free URL shortener</p>
+    </div>
+
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        const shortCode = /*[[${url.shortCode}]]*/ null;
+
+        function copyToClipboard() {
+            const shortUrl = document.getElementById('shortUrl').innerText;
+            navigator.clipboard.writeText(shortUrl).then(() => {
+                const btn = document.querySelector('.copy-btn');
+                const originalHTML = btn.innerHTML;
+                btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                setTimeout(() => {
+                    btn.innerHTML = originalHTML;
+                }, 2000);
+            });
+        }
+
+        async function refreshClicks() {
+            if (!shortCode) return;
+
+            const refreshBtn = document.querySelector('.refresh-clicks');
+            const originalIcon = refreshBtn.innerHTML;
+            refreshBtn.innerHTML = '<i class="fas fa-spinner fa-pulse"></i>';
+            refreshBtn.disabled = true;
+
+            try {
+                const response = await fetch(`/list?code=${shortCode}`, {
+                    headers: {
+                        'Accept': 'text/html'
+                    }
+                });
+
+                if (response.ok) {
+                    const html = await response.text();
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(html, 'text/html');
+                    const newClicks = doc.querySelector('#clicksCount')?.innerText;
+
+                    if (newClicks) {
+                        const clicksSpan = document.getElementById('clicksCount');
+                        clicksSpan.textContent = newClicks;
+                        clicksSpan.style.transform = 'scale(1.1)';
+                        setTimeout(() => {
+                            clicksSpan.style.transform = 'scale(1)';
+                        }, 200);
+                    }
+                }
+            } catch (error) {
+                console.error('Erro ao atualizar:', error);
+            } finally {
+                refreshBtn.innerHTML = originalIcon;
+                refreshBtn.disabled = false;
+            }
+        }
+        setInterval(refreshClicks, 10000);
+    
+    </script>
+</body>
+
+</html>

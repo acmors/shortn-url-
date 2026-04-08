@@ -2,6 +2,9 @@ server:
   port: 8080
 
 spring:
+  mvc:
+    favicon:
+      enabled: false
   cache:
     type: redis
   data:
@@ -27,11 +30,10 @@ spring:
 
 app:
   base-url: http://localhost:8080
-  rate-limit:
-    max-requests: 10
-    window-seconds: 60
-  cache:
-    link-ttl-minutes: 30
+
+logging:
+  level:
+    org.springframework.web.servlet.PageNotFound: OFF
 
 resilience4j:
   ratelimiter:

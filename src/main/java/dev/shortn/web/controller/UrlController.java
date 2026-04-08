@@ -21,17 +21,17 @@ public class UrlController {
 
     @PostMapping
     @RateLimiter(name = "createShortUrl", fallbackMethod = "fallback")
-    public ResponseEntity<UrlResponseDto> createShorCode(@RequestBody UrlRequesDto request){
+    public ResponseEntity<UrlResponseDto> createShorCode(@RequestBody UrlRequesDto request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(urlService.createShortUrl(request));
     }
 
     @GetMapping("/information/{shortCode}")
-    public ResponseEntity<UrlResponseDto> findByShortCode(@PathVariable String shortCode){
+    public ResponseEntity<UrlResponseDto> findByShortCode(@PathVariable String shortCode) {
         return ResponseEntity.ok().body(urlService.findByShortCodeDto(shortCode));
     }
 
     @GetMapping("/{shortCode}")
-    public ResponseEntity<Void> redirect(@PathVariable String shortCode){
+    public ResponseEntity<Void> redirect(@PathVariable String shortCode) {
         var redirect = urlService.redirect(shortCode);
         clickService.incrementClick(shortCode);
         return ResponseEntity
@@ -44,4 +44,5 @@ public class UrlController {
     public ResponseEntity<?> fallback(UrlRequesDto request, Throwable t) {
         return ResponseEntity.status(429).body("Too many requests");
     }
+
 }
