@@ -79,9 +79,30 @@ A cada redirecionamento, o clique é incrementado diretamente no Redis (INCR cli
 - Ao ultrapassar o limite, a API retorna HTTP 429 Too Many Requests
 - No dashboard, o usuário é redirecionado para uma página de erro amigável
 
+##Imagens do Projeto funcionando
+
+### Dashboard
+
+<img width="1919" height="949" alt="image" src="https://github.com/user-attachments/assets/66c4f3c0-2383-4406-9163-07e9baa773f2" />
+
+### Lista dados da URL
+
+<img width="1918" height="953" alt="image" src="https://github.com/user-attachments/assets/d129a4b1-35eb-4094-8b74-c019fad78083" />
+<img width="1919" height="950" alt="image" src="https://github.com/user-attachments/assets/100e7b0b-1749-43f9-85cb-066fce3c52ed" />
+
+### Rate Limit Exception
+
+<img width="1919" height="946" alt="image" src="https://github.com/user-attachments/assets/3350453a-3ff7-4f1e-83aa-6acd3e3f4453" />
+
+
+
+
+
+
 ## Contribuições
 
 Contribuições são muito bem-vindas! Se você tiver sugestões, encontrou um bug ou deseja implementar um novo recurso, sinta-se à vontade para:
 
 - 1 - Abrir uma **Issue** para discutir a mudança.
 - 2 - Criar um **Pull Request** com sua implementação.
+
