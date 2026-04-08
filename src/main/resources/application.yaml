@@ -19,6 +19,8 @@ spring:
     initialization-mode: always
     continue-on-error: true
     platform: postgresql
+    hikari:
+      initialization-fail-timeout: -1
   jpa:
     hibernate:
       ddl-auto: create-drop
